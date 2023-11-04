@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OLM System</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">    
+    
+    <!-- In <head> after the Bootstrap CSS. -->
+    <link rel="stylesheet" href="https://unpkg.com/@bootstrapstudio/bootstrap-better-nav/dist/bootstrap-better-nav.min.css">        
+        <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+</head>
+<body>
+    <section class="top_header d-flex align-items-center p-0">
+        <div class="container d-flex justify-content-center justify-content-sm-between">
+
+            <div class="socials d-none d-sm-block">
+                <i class="fab fa-facebook-f"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-google-plus-g"></i>
+                <i class="fab fa-linkedin-in"></i>
+            </div>
+
+            <div class="contact d-flex">
+                <div class="number_wrapper">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>+92 19191919</span>
+                </div>
+
+                <div class="email_wrapper">
+                    <i class="far fa-envelope"></i>
+                    <span>sohaibazam@gmail.com</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Navigation Menu -->
+    
+    <section id="nav" class="d-flex align-items-right p-0">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white p-0">
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                        <ul class="navbar-nav w-100 justify-content-lg-end">
+                           
+                            <li class="nav-item">
+                                <a class="nav-link " href="#Home">Home</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="#About Us">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#Contact">Contact Us</a>
+                            </li>
+                            
+
+                        </ul>
+
+                    </div>
+            </nav>
+        </div>
+    </section>
+
+    <div class="bg-image" style="background-image: url('images/images.jpeg'); height: 500px; ">
+    <h1>Welcome to the <span> Online Library</span></h1>
+    <h3>Explore and borrow Books  Online</h3>
+    </div>
+<br><br>
+<section class="main">
+
+    <div class="sidebar">
+        <h2>Book List</h2>
+        <ul id="book-list">
+           
+        </ul>
+    </div>
+    <div class="central">
+        <h2>Add <span>New Book</span> </h2>
+        <form id="add-book-form">
+           <div> <input type="text" id="title" placeholder="Title" required></div>
+          <div>  <input type="text" id="author" placeholder="Author" required></div>
+          <div>  <input type="text" id="category" placeholder="Category" required></div>
+          <div>  <input type="number" id="quantity" placeholder="Quantity" required></div>
+            <button type="submit">Add Book</button>
+        </form>
+    </div>
+    <div class="search">
+        <h2>Search for Books</h2>
+        <input type="text" id="search-input" placeholder="Search..."> <br>
+        <button>search</button>
+        <ul id="search-results">
+            <!-- Search results will be added here dynamically -->
+        </ul>
+    </div>
+</section>
+    
+
+   
+
+    <script>const books = [
+        { title: " The Alchemist", author: "Paulo Coelho:", category: "Fiction", quantity: 5 },
+        { title: "Sapiens: A Brief History of Humankind", author: " Yuval Noah Harari", category: "Non-Fiction", quantity: 3 },
+        // Add more book data here
+        { title: " Untamed", author: " Glennon Doyle:", category: "jorney", quantity: 6 },
+       
+    ];
+    
+    const bookList = document.getElementById("book-list");
+    const addBookForm = document.getElementById("add-book-form");
+    const searchInput = document.getElementById("search-input");
+    const searchResults = document.getElementById("search-results");
+    
+    // Function to display books in the book list
+    function displayBooks() {
+        bookList.innerHTML = "";
+        books.forEach((book, index) => {
+            const li = document.createElement("li");
+            li.textContent = `${book.title} by ${book.author}`;
+            bookList.appendChild(li);
+        });
+    }
+    
+    // Function to add a new book
+    addBookForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const title = document.getElementById("title").value;
+        const author = document.getElementById("author").value;
+        const category = document.getElementById("category").value;
+        const quantity = document.getElementById("quantity").value;
+        
+        // Add the new book to the books array (you should save it to a database in a real application)
+        books.push({ title, author, category, quantity });
+        const isDuplicate = books.some((book) => book.title === title && book.author === author);
+
+if (isDuplicate) {
+alert("This book already exists in the library.");
+} else {
+// Add the new book to the books array (you should save it to a database in a real application)
+books.push({ title, author, category, quantity });
+
+// Clear the form
+addBookForm.reset();
+
+// Update the book list
+displayBooks();
+}
+});
+
+
+    // Function to search for books
+    searchInput.addEventListener("input", () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        searchResults.innerHTML = "";
+        const results = books.filter((book) => book.title.toLowerCase().includes(searchTerm) || book.author.toLowerCase().includes(searchTerm));
+        results.forEach((book) => {
+            const li = document.createElement("li");
+            li.textContent = `${book.title} by ${book.author}`;
+            searchResults.appendChild(li);
+        });
+    });
+    
+    // Initial book list display
+    displayBooks();
+    </script>
+
+<section class="bottom_foot">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <div class="bottom_logo" >Online Library Management <br> System</div>
+
+        <div class="right_txt d-flex flex-column text-right">
+            <span> &copy; Sohaib Akhtar </span> 
+            <span>Peshawar</span>
+        </div>
+
+    </div>
+</section>
+   
+</body>
+</html>
